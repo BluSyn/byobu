@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+BANK_FILE="$HOME/.bbalance"
+
+__bankbalance_detail() {
+	cat "$BANK_FILE"
+}
+
+__bankbalance() {
+	data=$(cat $BANK_FILE)
+	color b g w; printf "%s" "$data"; color --; print "  "
+}

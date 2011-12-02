@@ -274,6 +274,7 @@ status_freq() {
 		users)		_RET=11 ;;
 		whoami)		_RET=86029 ;;
 		wifi_quality)	_RET=17 ;;
+		bankbalance)	_RET=30 ;;
 		*)		_RET=9999999 ;;
 	esac
 }

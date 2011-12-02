@@ -1,0 +1,65 @@
+#!/usr/bin/env python
+
+## Coded by Steven Bower - 2011
+## NOTE: This is a highly experimental, and
+## totally useless script. I don't feel like
+## writing a lot of documentation, so contact me
+## if you want help using it. You will need an
+## account at buxfer.com
+
+import os
+import urllib2
+import sys
+import re
+import base64
+import simplejson
+from subprocess import call
+
+# Username for account
+username = "<buxfer.com login email>"
+
+# Key and encrypted file
+key = "ASpecial Key Phrase11"
+encfile = os.getenv('HOME')+'/.bb.key'
+tmpfile = '/tmp/.bb.tmp'
+
+# Decrypt file to temp
+call('openssl enc -aes-256-cbc -d -salt -in "'+encfile+'" -out "'+tmpfile+'" -k "'+key+'"', shell=True)
+
+# Get temp pass file
+f = open(tmpfile, 'r')
+password = f.readline().replace(' ','%20')
+
+# Remove tmp file
+call('rm -f '+tmpfile, shell=True)
+
+#############
+
+def checkError(response):
+    result = simplejson.load(response)
+    response = result['response']
+    if response['status'] != "OK":
+        print "An error occured: %s" % response['status'].replace('ERROR: ', '')
+        sys.exit(1)
+
+    return response
+
+# Do first login call and get token
+base = "https://www.buxfer.com/api";
+url  = base + "/login.json?userid=" + username + "&password=" + password;
+
+req = urllib2.Request(url=url)
+response = checkError(urllib2.urlopen(req))
+token = response['token']
+
+# Get account details
+url  = base + "/accounts.json?token=" + token;
+req = urllib2.Request(url=url)
+response = checkError(urllib2.urlopen(req))
+
+act = response['accounts']
+
+# Print out balances for first two accounts
+print "%.2f/%.2f" % (act[0]['key-account']['balance'], act[1]['key-account']['balance'])
+
+sys.exit(0)
