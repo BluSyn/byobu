@@ -19,6 +19,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 PKG="byobu"
+[ -r "$HOME/.byoburc" ] && . "$HOME/.byoburc"
 [ -z "${BYOBU_PREFIX}" ] && export BYOBU_PREFIX="/usr" || export BYOBU_PREFIX
 . "${BYOBU_PREFIX}/lib/${PKG}/include/common"
 
@@ -80,9 +81,10 @@ case "$1" in
 			printf "  Expand all - zr\t\tCollapse all - zm\n  Expand one - zo\t\tCollapse one - zc\n\n"
 		fi
 		for i in "$BYOBU_PREFIX/lib/$PKG"/*; do
+			[ -f "$i" ] || continue
 			i=${i##*/}
 			case "$i" in
-				menu|notify_osd|time_binary) continue ;;
+				include|menu|notify_osd|time_binary) continue ;;
 			esac
 			find_script "$i" && . "${_RET}"
 			short=$(eval "__${i}" | $SED -e 's/^\s*//' -e 's/\s*$//' -e 's/.{[^}]*}//g')
