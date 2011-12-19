@@ -55,17 +55,10 @@ fi
 
 # NOTE: Older version of Screen have an arbitrary limit of only being able
 # to change colors 16 times in this 'hardstatus string'.
-# Whitelist distros where the fix has been released.
 # Also committed in Upstream git, but not yet released.
 #  * http://savannah.gnu.org/bugs/?22146
-MC=1
-if command -v egrep >/dev/null; then
-	if ! command -v tmux >/dev/null; then
-		if egrep -qsi "ubuntu|debian" /etc/issue 2>/dev/null || [ -e "/etc/arch-release" ]; then
-			MC=0
-		fi
-	fi
-fi
+# If we could reliably tell if we had a patched screen, we'd do so here...
+MC=0
 
 # Affects: First runs with no configuration
 # Seed the configuration
@@ -83,48 +76,10 @@ for f in status statusrc; do
 		cp -f "$BYOBU_PREFIX/share/$PKG/status/$f" "$BYOBU_CONFIG_DIR/$f"
 		# Enable ec2_cost, if we're in ec2 and seeding a new setup
 		if metadata_available; then
-			$SED -i -e "s/#ec2_cost/ec2_cost/g" "$BYOBU_CONFIG_DIR/$f"
+			$SED -i -e "s/#ec2_cost/ec2_cost/g" "$($READLINK -f $BYOBU_CONFIG_DIR/$f)"
 		fi
 	fi
 done
-
-# Affects: Upgrades from <= byobu-2.11
-# The status scripts used to have hyphens in their name, but now use
-# underscores such that we can source the file as a shell snippet;
-# fix existing status configuration.
-$SED -i -e "s/\([^=]+\)-\([^=]+\)=/\1_\2=/g" "$BYOBU_CONFIG_DIR/status"
-$SED -i -e "s/^disk-.*=/disk=/" "$BYOBU_CONFIG_DIR/status"
-$SED -i -e "s/^network-.*=/network=/" "$BYOBU_CONFIG_DIR/status"
-
-# Affects: Upgrades from <= byobu-2.16
-# screen-launcher was renamed byobu-launcher; if the user has byobu
-# set to auto-launch, update their configuration to use the byobu-launcher
-if grep -qs " screen-launcher" "$HOME/.profile"; then
-	byobu-launcher-install
-fi
-
-# Affects: Upgrades from <= byobu-2.25
-# Collapse separate status config files into the sourced config
-for i in disk network distro logo; do
-	if [ -r "$BYOBU_CONFIG_DIR/$i" ]; then
-		val=`cat $BYOBU_CONFIG_DIR/$i`
-		uc=`echo "$i" | tr "[:lower:]" "[:upper:]"`
-		case $i in
-			disk|network)
-				key="MONITORED_"$uc ;;
-			distro|logo)
-				key="$uc" ;;
-		esac
-		echo "$key=\"$val\"" >> "$BYOBU_CONFIG_DIR/statusrc"
-		rm "$BYOBU_CONFIG_DIR/$i"
-	fi
-done
-
-# Affects: Upgrades from <= byobu-2.57 that autolaunch
-# If the global autolaunch is on, then remove duplicate entry in ~/.profile
-if [ -h "/etc/profile.d/Z98-$PKG.sh" ]; then
-	$SED -i -e "/ $PKG-launch/d" "$HOME"/.profile || true
-fi
 
 # Affects: Upgrades from <= byobu-2.70 that autolaunch
 # Update the byobu-launch line, if necessary
@@ -135,7 +90,7 @@ fi
 # Affects: Upgrades from <= byobu-2.78 which might have "motd+shell"
 # in their window list; update this to just "shell"
 if grep -qs "motd+shell" "$BYOBU_CONFIG_DIR/windows"; then
-	$SED -i -e "s/motd+shell/shell/g" "$BYOBU_CONFIG_DIR/windows" || true
+	$SED -i -e "s/motd+shell/shell/g" "$($READLINK -f $BYOBU_CONFIG_DIR/windows)" || true
 fi
 
 # Affects: Upgrades from <= byobu 4.3, remove ec2_rates
@@ -143,7 +98,7 @@ rm -f "$BYOBU_CONFIG_DIR/ec2_rates"
 
 # Affects: Upgrades from <= byobu 4.4, update "shell" -> "byobu-shell"
 if grep -qs " shell$" "$BYOBU_CONFIG_DIR/windows"; then
-	$SED -i -e "s/ shell$/ $PKG-shell/g" "$BYOBU_CONFIG_DIR/windows" || true
+	$SED -i -e "s/ shell$/ $PKG-shell/g" "$($READLINK -f $BYOBU_CONFIG_DIR/windows)" || true
 fi
 
 # Affects: Upgrades from <= byobu 4.22
