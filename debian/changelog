@@ -1,8 +1,31 @@
-byobu (4.56) unreleased; urgency=low
+byobu (5.1) unreleased; urgency=low
 
-  * UNRELEASED
+  * usr/bin/byobu-select-backend:
+    - switch the order of the listed backends
+  * debian/control:
+    - depend on tmux, recommend screen
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 18 Dec 2011 21:35:00 -0600
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 24 Dec 2011 17:35:04 -0600
+
+byobu (5.0-0ubuntu1) precise; urgency=low
+
+  * etc/byobu/backend, usr/bin/byobu, usr/bin/byobu-config,
+    usr/bin/byobu-select-session, usr/lib/byobu/include/common:
+    - bump up to the 5.x series
+    - change default backend from screen to tmux
+  * usr/share/byobu/keybindings/f-keys.tmux,
+    usr/share/byobu/keybindings/f-keys.tmux.disable,
+    usr/share/doc/byobu/help.tmux.txt:
+    - put all of the status line functions under *-F5
+    - put all of the split arrangement functions under *-F8
+  * usr/lib/byobu/include/cycle-status,
+    usr/lib/byobu/include/Makefile.am, usr/share/byobu/keybindings/f-
+    keys.tmux, usr/share/byobu/status/status: LP: #887140
+    - support multiple toggle-able status lines
+    - define one or more tmux_right lines in ~/.byobu/status
+    - press Shift-F5 to toggle through
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 24 Dec 2011 17:35:00 -0600
 
 byobu (4.55-0ubuntu1) precise; urgency=low
 
