@@ -17,7 +17,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-VERSION=5.2
+VERSION=5.3
 PKG="byobu"
 
 # All sorts of things go wrong if you don't own your $HOME dir.
@@ -116,7 +116,7 @@ case $BYOBU_BACKEND in
 		# Check if our terminfo supports 256 colors
 		if command -v tput >/dev/null; then
 			if [ "$(tput colors 2>/dev/null || echo 0)" = "256" ]; then
-				SCREEN_TERM="-T screen-256color"
+				SCREEN_TERM="-T screen-bce"
 			fi
 		fi
 		# Some users want to maintain separate configurations

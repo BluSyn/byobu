@@ -1,11 +1,55 @@
-byobu (5.2) unreleased; urgency=low
+byobu (5.3) unreleased; urgency=low
 
+  [ Daniel Hahler ]
+  * usr/bin/Makefile.am:
+    - fix safe link creation
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 08 Jan 2012 20:28:08 -0600
+
+byobu (5.2-0ubuntu1) precise; urgency=low
+
+  [ Dustin Kirkland ]
   * icons/byobu_multi.svg, === removed directory icons,
     - save some space in the tarball
   * usr/lib/byobu/logo:
     - add a linux mint logo
+  * usr/lib/byobu/include/layout => usr/bin/byobu-layout,
+    usr/share/byobu/keybindings/f-keys.tmux, usr/share/man/man1/byobu-
+    layout.1:
+    - move the layout library utility to a generally usable byobu-layout
+      in the system path
+    - add specific named layout support to both save and restore operations
+    - add a manpage
+  * usr/bin/Makefile.am, usr/lib/byobu/include/Makefile.am,
+    usr/share/man/man1/Makefile.am:
+    - install the byobu-layout tool and manpage
+  * usr/lib/byobu/ec2_cost, usr/lib/byobu/network:
+    - use /proc/net/dev for network transfer calculations
+    - fixes issue with ifconfig format changes
+  * usr/share/byobu/keybindings/f-keys.tmux,
+    usr/share/byobu/keybindings/f-keys.tmux.disable,
+    usr/share/doc/byobu/help.tmux.txt: LP: #912637
+    - change prev/next window keybinding from alt-left/right to
+      ctrl-shift-left/right;  seems alt-left-right are used by irssi
+  * README: LP: #911825
+    - add note about tmux version required
+  * usr/lib/byobu/include/common: LP: #911149
+    - when backend is not automatically set, check if screen or tmux
+      is installed on the system before setting the default backend
+  * debian/control: LP: #910187
+    - depend on tmux | screen, recommend tmux and screen
+    - hopefully this solves dependency resolution on hardy
+  * usr/bin/byobu, usr/share/byobu/profiles/tmux: LP: #908766
+    - use screen-bce instead of screen-256color, to support background
+      colors correctly
+  * usr/bin/byobu-config: LP: #910638
+    - ensure that config dir exists before touching reload flag
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 29 Dec 2011 12:28:51 -0600
+  [ Daniel Hahler ]
+  * usr/bin/byobu-ctrl-a, usr/share/byobu/profiles/tmux: LP: #910779
+    - don't use BYOBU_PREFIX for tmux paths
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 08 Jan 2012 20:28:02 -0600
 
 byobu (5.1-0ubuntu1) precise; urgency=low
 
