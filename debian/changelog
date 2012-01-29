@@ -1,9 +1,42 @@
-byobu (5.6) unreleased; urgency=low
+byobu (5.7) unreleased; urgency=low
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 28 Jan 2012 15:19:07 -0600
+
+byobu (5.6-0ubuntu1) precise; urgency=low
 
   [ Dustin Kirkland ]
   * usr/lib/byobu/ip_address:
     - user@host and ipaddress need some separation, as they're hard to
       differentiate when next to one another
+  * usr/bin/byobu-ctrl-a: LP: #922951
+    - if the user has already chosen an escape sequence, don't run the
+      interactive byobu-ctrl-a program
+  * usr/share/byobu/keybindings/f-keys.tmux,
+    usr/share/byobu/profiles/tmux:
+    - empty default window names
+    - easy to change with F8
+    - need to save characters in default tmux launch to get it to fit
+      in 80x24 terminals
+  * experimental/byobu-classroom, usr/bin/byobu-config, usr/bin/byobu-
+    ctrl-a, usr/bin/byobu-janitor, usr/bin/byobu-launcher-uninstall,
+    usr/bin/byobu-quiet, usr/bin/byobu-silent, usr/bin/byobu-status,
+    usr/lib/byobu/cpu_temp, usr/lib/byobu/custom,
+    usr/lib/byobu/ec2_cost, usr/lib/byobu/include/constants,
+    usr/lib/byobu/logo, usr/lib/byobu/menu, usr/lib/byobu/network,
+    usr/share/byobu/keybindings/f-keys: LP: #920661
+    - byobu should not set environment variable 'SED'
+    - use BYOBU_SED instead
+  * usr/bin/byobu, usr/bin/byobu-janitor, usr/lib/byobu/disk_io,
+    usr/lib/byobu/include/constants:
+    - use BYOBU_READLINK instead of READLINK
+  * usr/bin/byobu-select-session: LP: #911500
+    - detect and avoid some circular byobu-inside-byobu infinite loops
+  * usr/bin/byobu, usr/bin/byobu-ctrl-a, usr/bin/byobu-reconnect-
+    sockets, usr/lib/byobu/color, usr/lib/byobu/date,
+    usr/lib/byobu/include/shutil, usr/lib/byobu/time:
+    - make check for BYOBU_BACKEND explitly tmux|screen
 
   [ Ryan Thompson ]
   * usr/bin/byobu-select-session: LP: #919391
@@ -11,7 +44,7 @@ byobu (5.6) unreleased; urgency=low
   * usr/bin/byobu-select-session: LP: #908944
     - use attach_session function
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 18 Jan 2012 19:57:15 -0600
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 28 Jan 2012 15:19:02 -0600
 
 byobu (5.5-0ubuntu1) precise; urgency=low
 
