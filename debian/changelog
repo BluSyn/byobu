@@ -1,8 +1,20 @@
-byobu (5.7) unreleased; urgency=low
+byobu (5.8) unreleased; urgency=low
 
   * UNRELEASED
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 28 Jan 2012 15:19:07 -0600
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 30 Jan 2012 18:12:49 -0600
+
+byobu (5.7-0ubuntu1) precise; urgency=low
+
+  [ Ryan Thompson ]
+  * usr/bin/byobu-reconnect-sockets: LP: #923169
+    - nasty hack for compatibility with zsh sourcing this file
+
+  [ Colin Watson ]
+  * debian/control, debian/rules: LP: #923197
+    - minimize our perl dependencies
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 30 Jan 2012 18:12:46 -0600
 
 byobu (5.6-0ubuntu1) precise; urgency=low
 
