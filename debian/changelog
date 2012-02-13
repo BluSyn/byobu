@@ -1,4 +1,24 @@
-byobu (5.8) unreleased; urgency=low
+byobu (5.10) unreleased; urgency=low
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 12 Feb 2012 11:07:46 -0600
+
+byobu (5.9-0ubuntu1) precise; urgency=low
+
+  * usr/bin/byobu-status:
+    - fix broken status expiration, which wasn't working and probably
+      had a huge performance penalty :-(
+  * usr/bin/byobu-ctrl-a, usr/share/byobu/keybindings/f-keys.tmux,
+    usr/share/byobu/keybindings/f-keys.tmux.disable,
+    usr/share/byobu/profiles/tmuxrc: LP: #923134
+    - get byobu-ctrl-a working within tmux, like screen
+    - prompt the user for ctrl-a to work in Screen/escape mode, or emacs
+      mode
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 12 Feb 2012 11:07:40 -0600
+
+byobu (5.8-0ubuntu1) precise; urgency=low
 
   [ Daniel Hahler ]
   * debian/rules:
@@ -11,8 +31,31 @@ byobu (5.8) unreleased; urgency=low
   [ Dustin Kirkland ]
   * debian/control:
     - suggest ttf-ubuntu-font-family which provides the  character
+  * usr/share/byobu/profiles/tmux:
+    - drop the brackets around the open windows, saves ~4 horizontal
+      characters;  trying to get default tmux to fit in 80x25
+  * usr/lib/byobu/users:
+    - do a better job counting ssh users
+  * usr/share/byobu/status/status:
+    - move wifi_quality to second right status
+  * usr/bin/byobu-status, usr/lib/byobu/include/constants:
+    - use printf instead of echo, saves a few forks
+  * usr/lib/byobu/cpu_freq, usr/lib/byobu/cpu_temp,
+    usr/lib/byobu/custom, usr/lib/byobu/date, usr/lib/byobu/disk_io,
+    usr/lib/byobu/ec2_cost, usr/lib/byobu/logo, usr/lib/byobu/network,
+    usr/lib/byobu/rcs_cost, usr/lib/byobu/time_binary,
+    usr/lib/byobu/include/common, usr/lib/byobu/include/mondrian,
+    usr/lib/byobu/include/shutil:
+    - use printf where possible, saves some forks
+  * usr/lib/byobu/release, usr/share/byobu/status/statusrc,
+    usr/share/man/man1/byobu.1:
+    - based on suggestion from Scott Moser, support an abbreviated
+      version of the release string
+    - support a statusrc configuration variable of RELEASE_ABBREVIATED=N
+      where N is the number of characters from the front of the release
+      string to display
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 30 Jan 2012 18:12:49 -0600
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 12 Feb 2012 10:01:31 -0600
 
 byobu (5.7-0ubuntu1) precise; urgency=low
 
