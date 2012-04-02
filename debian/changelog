@@ -1,4 +1,18 @@
-byobu (5.16) unreleased; urgency=low
+byobu (5.17) unreleased; urgency=low
+
+  [ Dustin Kirkland ]
+  * usr/bin/byobu-status:
+    - performance improvement, testing for directory existence before
+      mkdir -p saves time
+    - localize a couple of function variables
+
+  [ Fumihito YOSHIDA (hito) ]
+  * usr/lib/byobu/logo: LP: #952724
+    - handle VTE_CJK_WIDTH=1 for asian locales
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 11 Mar 2012 07:23:06 -0500
+
+byobu (5.16-0ubuntu1) precise; urgency=low
 
   * usr/lib/byobu/updates_available: LP: #942469
     - fix regression clearing updates_available status
@@ -6,6 +20,8 @@ byobu (5.16) unreleased; urgency=low
   * usr/lib/byobu/reboot_required, usr/lib/byobu/updates_available:
     - powersave flag and reload flag suffered from the same problem
       as LP: #942469
+  * usr/bin/byobu: LP: #949385
+    - namespace a few environment variables more appropriately
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 23 Feb 2012 15:01:55 -0600
 
