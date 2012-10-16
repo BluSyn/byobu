@@ -1,4 +1,4 @@
 #!/bin/bash
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games
-LANG=en_US.UTF-8
-apcaccess | egrep -i 'LOADPCT|NOMPOWER' | awk '{printf "%d ", $3}' | awk '{$2=$1/100*$2; printf "%.1f%% %.1fW", $1, $2}' | tee /tmp/apcbattusage
+
+apcaccess | egrep -i 'LOADPCT|NOMPOWER' | awk '{printf "%d ", $3}' | awk '{$2=$1/100*$2; printf "%.1f%% %.1fW", $1, $2}' | ifne tee /tmp/apcbattusage
