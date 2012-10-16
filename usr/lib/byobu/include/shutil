@@ -276,6 +276,7 @@ status_freq() {
 		whoami)		_RET=86029 ;;
 		wifi_quality)	_RET=17 ;;
 		bankbalance)	_RET=30 ;;
+		apcbatt)	_RET=5 ;;
 		*)		_RET=9999999 ;;
 	esac
 }

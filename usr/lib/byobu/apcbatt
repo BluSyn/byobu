@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+APCBATT_FILE="/tmp/apcbattusage"
+
+__apcbatt_detail() {
+       cat "$APCBATT_FILE"
+}
+
+__apcbatt() {
+       data=$(cat $APCBATT_FILE)
+       color b g w; printf "%s" "$data"; color --; print "  "
+}
