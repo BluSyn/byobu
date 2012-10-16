@@ -27,10 +27,12 @@ get_distro() {
 	elif [ -r "/etc/issue" ]; then
 		# Otherwise, check /etc/issue
 		_RET=`grep -m1 "^[A-Za-z]" /etc/issue`
-	elif which lsb_release >/dev/null 2>&1; then
+	elif $BYOBU_TEST lsb_release >/dev/null 2>&1; then
 		# This can be a very expensive operation, do it only
 		# if all other methods fail
 		_RET=`lsb_release -s -a 2>/dev/null`
+	elif $BYOBU_TEST sw_vers >/dev/null 2>&1; then
+		_RET=`sw_vers 2>/dev/null`
 	else
 		# No idea!
 		_RET="[B]"
@@ -54,7 +56,7 @@ __logo() {
 	case "$distro" in
 		*ubuntu*)
 			if $MARKUP; then
-				if [ "$UTF8" = "1" ] || [ "$BYOBU_BACKEND" = "tmux" ]; then
+				if [ "$BYOBU_BACKEND" = "tmux" ] && [ "$BYOBU_CHARMAP" = "UTF-8" ]; then
 					if [ ! "$VTE_CJK_WIDTH" = "1" ] && [ !  "$VTE_CJK_WIDTH" = "wide" ] ; then
 						color m W; printf " u "; color -
 					else
@@ -95,6 +97,14 @@ __logo() {
 			logo=" > "
 			$MARKUP && printf "$(color b c w)%s$(color -)" "$logo" || printf "$logo"
 		;;
+		*mac*)
+			if [ "$BYOBU_BACKEND" = "tmux" ] && [ "$BYOBU_CHARMAP" = "UTF-8" ]; then
+			logo=" ⌘  "
+			else
+				logo=" X "
+			fi
+			$MARKUP && printf "$(color b k w)%s$(color -)" "$logo" || printf "$logo"
+		;;
 		*mandriva*)
 			logo=" (* "
 			$MARKUP && printf "$(color b k c) ($(color -)$(color b k y)*$(color -) " || printf "$logo"
@@ -103,7 +113,7 @@ __logo() {
 			logo=" lm "
 			$MARKUP && printf "$(color g w)$logo$(color -)$(color g w)$(color -) " || printf "$logo"
 		;;
-		*redhat*)
+		*red*hat*)
 			logo=" RH "
 			$MARKUP && printf "$(color R k)%s$(color -)" "$logo" || printf "$logo"
 		;;

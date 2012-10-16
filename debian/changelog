@@ -1,16 +1,152 @@
-byobu (5.17) unreleased; urgency=low
+byobu (5.22) unreleased; urgency=low
+
+  [ Dustin Kirkland ]
+  * usr/bin/byobu-config, usr/bin/byobu-ctrl-a: LP: #1019743
+    - fix escape sequence setting in config with tmux
+  * debian/postinst, debian/postrm: LP: #1050249
+    - clean up obsolete config file
+  * usr/share/byobu/keybindings/f-keys.screen:
+    - create a new shell when splitting a window in byobu-screen
+  * usr/lib/byobu/memory: LP: #1059307
+    - drop fo_cached calculation, which was not actually used
+    - change foreground color of free memory percentage to yellow,
+      if its over 90% used
+    - use a better variable name for memory usage
+
+  [ Jake Biesinger and Dustin Kirkland ]
+  * usr/share/byobu/keybindings/common, usr/share/byobu/keybindings/f-
+    keys.screen, usr/share/byobu/keybindings/f-keys.screen.disable,
+    usr/share/byobu/keybindings/f-keys.tmux,
+    usr/share/byobu/keybindings/f-keys.tmux.disable,
+    usr/share/doc/byobu/help.tmux.txt: LP: #945069
+    - unbind ctrl-left/right/up/down in byobu
+      + previously was used to resize splits
+      + some users unfortunately expect ctrl-left/right to move the
+        cursor around words
+    - resizing splits is something that happens relatively infrequently,
+      so bind these to shift-alt-up/down/left/right
+    - use alt-left/right to move between windows
+    - use alt-up/down to move between sessions
+    - source the disable bindings just before sourcing the byobu bindings,
+      this enables a clean undo of bindings
+    - document the changes in the help text
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 11 Jul 2012 12:02:34 -0500
+
+byobu (5.21-0ubuntu1) quantal; urgency=low
+
+  [ Dustin Kirkland ]
+  * usr/lib/byobu/users:
+    - clear cache on 0 users
+
+  [ Patrick Marlier ]
+  * usr/lib/byobu/users:
+    - fix typo in user detailed counting
+
+  [ Daniel Hahler ]
+  * usr/lib/byobu/include/common:
+    - clear stderr in byobu test
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 11 Jul 2012 12:02:31 -0500
+
+byobu (5.20-0ubuntu1) quantal; urgency=low
+
+  [ Dustin Kirkland ]
+  * usr/bin/byobu-status: LP: #998812
+    - fix upgrades to the new width handling, where some things
+      were undefined
+  * usr/lib/byobu/updates_available: LP: #976928, #1010505, #999151
+    - use flock when running apt-check or apt-get
+      + ideally we'd use run-one here, but not yet in main or other distros
+    - depend on util-linux, which provides flock
+    - drop run-one usage, use flock directly instead
+  * debian/control, usr/share/byobu/windows/common:
+    - fix some lintian warnings and errors
+  * usr/lib/byobu/raid: LP: #1006971
+    - ensure raid status cache gets cleared out when done rebuilding
+  * debian/postrm: LP: #996873
+    - at package removal, ensure that we remove the auto-launch symlink
+      if it exists
+  * usr/bin/byobu, usr/lib/byobu/include/constants, usr/lib/byobu/logo,
+    usr/share/man/man1/byobu.1: LP: #938920, #995412
+    - fix "infinite scrolling" of status line, when using multibyte
+      utf-8 characters in status
+    - detect character map, and only enable utf-8 when possible
+  * usr/bin/byobu, usr/bin/byobu-launch, usr/bin/byobu-status,
+    usr/lib/byobu/disk_io, usr/lib/byobu/distro,
+    usr/lib/byobu/include/common, usr/lib/byobu/include/constants,
+    usr/lib/byobu/release, usr/lib/byobu/updates_available: LP: #996285
+    - create new BYOBU_TEST global, which is one of:
+      [command -v, type, which]
+    - command -v doesn't exist in busybox, type does
+  * usr/lib/byobu/ec2_cost, usr/lib/byobu/include/shutil,
+    usr/lib/byobu/rcs_cost: LP: #1013220
+    - gracefully silence status notifications that require /proc/net/route
+      when it's not really there (cygwin, mac)
+  * usr/share/byobu/profiles/tmux: LP: #1012348
+    - fix status activity/alert bolding
+    - seems upstream tmux changed the option name from "alert" to "activity"
+  * usr/share/man/man1/byobu.1: LP: #977225
+    - add documentation about the status line background colors
+  * usr/lib/byobu/include/constants: LP: #954031
+    - use the sed --follow-symlinks option to keep from recreating files,
+      especially .profile and .bashrc
+
+  [ Dustin Kirkland and Daniel Lee ]
+  * usr/lib/byobu/disk_io, usr/lib/byobu/mail, usr/lib/byobu/network:
+    - LP: #962730, #998202
+    - clear out cache on a few other status notifications where we go
+      from activity, to none
+
+  [ https://launchpad.net/~ktyubuntu ]
+  * usr/lib/byobu/logo: LP: #1004712
+    - fix Red Hat logo detection
+  * usr/lib/byobu/logo: LP: #1004722
+    - add apple distro and logo
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 24 Jun 2012 16:25:31 -0500
+
+byobu (5.19-0ubuntu1) quantal; urgency=low
+
+  * usr/bin/byobu-config, usr/bin/byobu-select-session: LP: #988471
+    - per Barry Warsaw, scripts should NOT use 'env python'; sorry
+  * === added directory usr/share/sounds, === added directory
+    usr/share/sounds/byobu, usr/share/sounds/byobu/byobu.ogg: LP: #999716
+    - add byobu sound to repo, as pronounced by Fumihito YOSHIDA
+  * usr/lib/byobu/updates_available:
+    - use run-one, rather than run-this-one (which isn't working well)
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 08 Jun 2012 17:25:18 -0500
+
+byobu (5.18-0ubuntu1) quantal; urgency=low
+
+  [ Dustin Kirkland ]
+  * usr/bin/byobu-status: LP: #997766
+    - handle status wider than terminal more gracefully
+
+  [ Daniel Hahler ]
+  * usr/bin/byobu-config: LP: #996559
+    - use env for python version
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 11 May 2012 15:42:59 -0700
+
+byobu (5.17-0ubuntu1) precise; urgency=low
 
   [ Dustin Kirkland ]
   * usr/bin/byobu-status:
     - performance improvement, testing for directory existence before
       mkdir -p saves time
     - localize a couple of function variables
+  * usr/bin/byobu: LP: #966686
+    - ensure that the MOTD gets printed on byobu-tmux first launches
+  * usr/lib/byobu/include/constants: LP: #940224
+    - revert r1927
 
   [ Fumihito YOSHIDA (hito) ]
   * usr/lib/byobu/logo: LP: #952724
     - handle VTE_CJK_WIDTH=1 for asian locales
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 11 Mar 2012 07:23:06 -0500
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 03 Apr 2012 19:22:02 -0500
 
 byobu (5.16-0ubuntu1) precise; urgency=low
 
